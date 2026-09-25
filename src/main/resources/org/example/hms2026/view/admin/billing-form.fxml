@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="720.0" prefWidth="650.0" style="-fx-background-color: #F8FAFC;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms2026.controller_admin.BillingFormController">
+    <children>
+        <VBox spacing="16.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+            <children>
+                <!-- Header Title & Receipt No -->
+                <HBox alignment="CENTER_LEFT">
+                    <children>
+                        <VBox spacing="2.0">
+                            <children>
+                                <Label text="HealthTech Hospital" textFill="#1e293b">
+                                    <font><Font name="System Bold" size="18.0" /></font>
+                                </Label>
+                                <Label text="Official Medical Receipt &amp; Invoice" textFill="#64748b">
+                                    <font><Font size="12.0" /></font>
+                                </Label>
+                            </children>
+                        </VBox>
+                        <HBox HBox.hgrow="ALWAYS" />
+                        <VBox alignment="TOP_RIGHT" spacing="4.0">
+                            <children>
+                                <Label text="RECEIPT" textFill="#1e293b">
+                                    <font><Font name="System Bold" size="20.0" /></font>
+                                </Label>
+                                <Label fx:id="lblReceiptNo" text="Receipt No: #INV-2026-001" textFill="#64748b">
+                                    <font><Font size="11.0" /></font>
+                                </Label>
+                                <DatePicker fx:id="datePicker" prefWidth="140.0" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- Information Section (Patient & Doctor) -->
+                <HBox spacing="20.0">
+                    <children>
+                        <!-- Patient Information Box -->
+                        <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 12px; -fx-background-radius: 8px; -fx-border-color: #E2E8F0; -fx-border-radius: 8px;" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Patient Information" textFill="#2563eb">
+                                    <font><Font name="System Bold" size="13.0" /></font>
+                                </Label>
+                                <ComboBox fx:id="cmbPatients" promptText="Select Patient" style="-fx-pref-width: 250px;" />
+                                <TextField fx:id="txtPatientContact" promptText="Contact Number" />
+                                <TextField fx:id="txtPatientEmail" promptText="Email Address" />
+                            </children>
+                        </VBox>
+
+                        <!-- Practitioner Information Box -->
+                        <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 12px; -fx-background-radius: 8px; -fx-border-color: #E2E8F0; -fx-border-radius: 8px;" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Practitioner Information" textFill="#2563eb">
+                                    <font><Font name="System Bold" size="13.0" /></font>
+                                </Label>
+                                <ComboBox fx:id="cmbDoctors" promptText="Select Doctor" style="-fx-pref-width: 250px;" />
+                                <TextField fx:id="txtDoctorLicense" promptText="Practitioner License No" />
+                                <TextField fx:id="txtDiagnosis" promptText="Diagnosis / Service Details" />
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- Description & Charge Entry Box -->
+                <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 12px; -fx-background-radius: 8px; -fx-border-color: #E2E8F0; -fx-border-radius: 8px;">
+                    <children>
+                        <Label text="Charge / Service &amp; Amount" textFill="#2563eb">
+                            <font><Font name="System Bold" size="13.0" /></font>
+                        </Label>
+                        <HBox spacing="10.0">
+                            <children>
+                                <TextField fx:id="txtDescription" promptText="Description (e.g., General Checkup &amp; Medicine)" HBox.hgrow="ALWAYS" />
+                                <TextField fx:id="txtAmount" promptText="Amount ($)" style="-fx-pref-width: 130px;" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <!-- Notes & Payment Method -->
+                <HBox spacing="20.0">
+                    <children>
+                        <VBox spacing="8.0" style="-fx-background-color: white; -fx-padding: 12px; -fx-background-radius: 8px; -fx-border-color: #E2E8F0; -fx-border-radius: 8px;" HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label text="Payment Method (Notes)" textFill="#1e293b">
+                                    <font><Font name="System Bold" size="12.0" /></font>
+                                </Label>
+                                <CheckBox fx:id="chkCash" text="Cash" />
+                                <CheckBox fx:id="chkCredit" text="Credit card" />
+                                <CheckBox fx:id="chkKHQR" text="Others (KHQR / Bank Transfer)" selected="true" />
+                            </children>
+                        </VBox>
+
+                        <!-- Calculation Summary -->
+                        <VBox spacing="6.0" style="-fx-background-color: white; -fx-padding: 12px; -fx-background-radius: 8px; -fx-border-color: #E2E8F0; -fx-border-radius: 8px;" prefWidth="250.0">
+                            <children>
+                                <GridPane hgap="10.0" vgap="4.0">
+                                    <columnConstraints>
+                                        <ColumnConstraints percentWidth="60.0" />
+                                        <ColumnConstraints percentWidth="40.0" halignment="RIGHT" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                        <RowConstraints />
+                                    </rowConstraints>
+                                    <children>
+                                        <Label text="SUBTOTAL:" textFill="#64748b"><font><Font size="11.0" /></font></Label>
+                                        <Label fx:id="lblSubtotal" text="0.00$" textFill="#1e293b" GridPane.columnIndex="1"><font><Font name="System Bold" size="11.0" /></font></Label>
+
+                                        <Label text="DISCOUNT:" textFill="#64748b" GridPane.rowIndex="1"><font><Font size="11.0" /></font></Label>
+                                        <Label text="0.00$" textFill="#1e293b" GridPane.columnIndex="1" GridPane.rowIndex="1"><font><Font name="System Bold" size="11.0" /></font></Label>
+
+                                        <Label text="TAX RATE:" textFill="#64748b" GridPane.rowIndex="2"><font><Font size="11.0" /></font></Label>
+                                        <Label text="0.0%" textFill="#1e293b" GridPane.columnIndex="1" GridPane.rowIndex="2"><font><Font name="System Bold" size="11.0" /></font></Label>
+                                    </children>
+                                </GridPane>
+                                <HBox alignment="CENTER_LEFT" style="-fx-background-color: #E2E8F0; -fx-padding: 8px; -fx-background-radius: 4px;">
+                                    <children>
+                                        <Label text="Balance Due:" textFill="#0f172a">
+                                            <font><Font name="System Bold" size="12.0" /></font>
+                                        </Label>
+                                        <HBox HBox.hgrow="ALWAYS" />
+                                        <Label fx:id="lblBalanceDue" text="0.00$" textFill="#2563eb">
+                                            <font><Font name="System Bold" size="14.0" /></font>
+                                        </Label>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- Action Buttons -->
+                <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                    <children>
+                        <Button onAction="#handleCancel" style="-fx-background-color: #94A3B8; -fx-text-fill: white; -fx-padding: 8px 16px; -fx-background-radius: 6px; -fx-cursor: hand;" text="Cancel" />
+                        <Button onAction="#handleSaveInvoice" style="-fx-background-color: #2563EB; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 8px 20px; -fx-background-radius: 6px; -fx-cursor: hand;" text="Save &amp; Generate Invoice" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

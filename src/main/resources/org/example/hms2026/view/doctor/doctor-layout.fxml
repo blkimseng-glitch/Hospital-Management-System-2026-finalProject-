@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="780.0" prefWidth="1250.0" stylesheets="@../../css/modern-theme.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms2026.controller_doctor.DoctorDashboardController">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox prefWidth="270.0" style="-fx-background-color: linear-gradient(to bottom, #1E3A8A, #1E40AF);" BorderPane.alignment="CENTER">
+            <padding><Insets bottom="20.0" left="15.0" right="15.0" top="20.0" /></padding>
+            <children>
+                <!-- Doctor Profile Summary -->
+                <VBox alignment="CENTER" spacing="6.0" style="-fx-background-color: rgba(255,255,255,0.12); -fx-background-radius: 12; -fx-padding: 15;">
+                    <children>
+                        <Label text="👨‍⚕️" textFill="WHITE"><font><Font size="32.0" /></font></Label>
+                        <Label fx:id="lblSidebarDocName" text="Dr. Stranger" textFill="WHITE"><font><Font name="System Bold" size="16.0" /></font></Label>
+                        <Label fx:id="lblSidebarDocSpec" text="Dentist / Cardiologist" textFill="#93C5FD"><font><Font size="12.0" /></font></Label>
+                    </children>
+                    <VBox.margin><Insets bottom="20.0" /></VBox.margin>
+                </VBox>
+
+                <!-- Navigation Menu -->
+                <VBox spacing="8.0" VBox.vgrow="ALWAYS">
+                    <children>
+                        <Button fx:id="btnNavDashboard" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleSwitchView" style="-fx-background-color: rgba(255,255,255,0.25); -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" text="📊 Dashboard">
+                            <font><Font size="15.0" /></font><padding><Insets bottom="10.0" left="15.0" top="10.0" /></padding>
+                        </Button>
+                        <Button fx:id="btnNavDiagnosis" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleSwitchView" style="-fx-background-color: transparent; -fx-text-fill: #E0E7FF; -fx-background-radius: 6;" text="🩺 Diagnoses">
+                            <font><Font size="15.0" /></font><padding><Insets bottom="10.0" left="15.0" top="10.0" /></padding>
+                        </Button>
+                        <Button fx:id="btnNavAppointment" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleSwitchView" style="-fx-background-color: transparent; -fx-text-fill: #E0E7FF; -fx-background-radius: 6;" text="🗓️ Appointments">
+                            <font><Font size="15.0" /></font><padding><Insets bottom="10.0" left="15.0" top="10.0" /></padding>
+                        </Button>
+                        <Button fx:id="btnNavProfile" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleSwitchView" style="-fx-background-color: transparent; -fx-text-fill: #E0E7FF; -fx-background-radius: 6;" text="👨‍⚕️ Doctor Detail">
+                            <font><Font size="15.0" /></font><padding><Insets bottom="10.0" left="15.0" top="10.0" /></padding>
+                        </Button>
+                        <Button fx:id="btnNavStock" alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleSwitchView" style="-fx-background-color: transparent; -fx-text-fill: #E0E7FF; -fx-background-radius: 6;" text="💊 Check Stock">
+                            <font><Font size="15.0" /></font><padding><Insets bottom="10.0" left="15.0" top="10.0" /></padding>
+                        </Button>
+                    </children>
+                </VBox>
+
+                <!-- Logout -->
+                <Button alignment="BASELINE_LEFT" maxWidth="Infinity" onAction="#handleLogout" style="-fx-background-color: #EF4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" text="🚪 Logout">
+                    <font><Font size="15.0" /></font><padding><Insets bottom="10.0" left="15.0" top="10.0" /></padding>
+                </Button>
+            </children>
+        </VBox>
+    </left>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <StackPane style="-fx-background-color: #F8FAFC;" BorderPane.alignment="CENTER">
+            <children>
+
+                <!-- 1. DASHBOARD -->
+                <VBox fx:id="viewDashboard" spacing="20.0" visible="true">
+                    <padding><Insets bottom="25.0" left="25.0" right="25.0" top="25.0" /></padding>
+                    <children>
+                        <Label text="Welcome Back Dr.Vicheka"><font><Font name="System Bold" size="22.0" /></font></Label>
+                        <HBox spacing="15.0">
+                            <children>
+                                <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15;" HBox.hgrow="ALWAYS">
+                                    <children><Label text="Patients" textFill="#64748B" /><Label fx:id="lblPatientsCount" text="0"><font><Font name="System Bold" size="22.0" /></font></Label></children>
+                                </VBox>
+                                <VBox style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15;" HBox.hgrow="ALWAYS">
+                                    <children><Label text="Appointments" textFill="#64748B" /><Label fx:id="lblAppointmentsCount" text="0"><font><Font name="System Bold" size="22.0" /></font></Label></children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <!-- Search & Sort Box inside Dashboard -->
+                        <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <HBox spacing="10.0">
+                                    <children>
+                                        <TextField fx:id="txtSearchKeyword" promptText="🔍 Search appointment by patient name or ID..." HBox.hgrow="ALWAYS" />
+                                        <ComboBox fx:id="cmbSortOption" promptText="Sort By Status/Date" />
+                                    </children>
+                                </HBox>
+                                <TableView fx:id="tblSearchAppointments" VBox.vgrow="ALWAYS">
+                                    <columns>
+                                        <TableColumn fx:id="colSearchId" prefWidth="120.0" text="ID" />
+                                        <TableColumn fx:id="colSearchPatient" prefWidth="280.0" text="Patient Name" />
+                                        <TableColumn fx:id="colSearchDate" prefWidth="280.0" text="Date &amp; Time" />
+                                        <TableColumn fx:id="colSearchStatus" prefWidth="180.0" text="Status" />
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+
+                <!-- 2. DIAGNOSES VIEW -->
+                <VBox fx:id="viewDiagnosis" spacing="15.0" visible="false">
+                    <padding><Insets bottom="25.0" left="25.0" right="25.0" top="25.0" /></padding>
+                    <children>
+                        <Label text="Patient Diagnoses &amp; Prescription"><font><Font name="System Bold" size="22.0" /></font></Label>
+                        <HBox spacing="10.0">
+                            <children>
+                                <TextField fx:id="txtDiagPatientName" promptText="Patient Name" prefWidth="220.0" />
+                                <TextField fx:id="txtDiagNotes" promptText="Diagnosis Notes" HBox.hgrow="ALWAYS" />
+                                <Button onAction="#handleSaveDiagnosis" style="-fx-background-color: #2563EB; -fx-text-fill: white;" text="💾 Save" />
+                            </children>
+                        </HBox>
+                        <TableView fx:id="tblDiagnosisHistory" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colDiagPatient" prefWidth="220.0" text="Patient Name" />
+                                <TableColumn fx:id="colDiagNotes" prefWidth="420.0" text="Diagnosis Notes" />
+                                <TableColumn fx:id="colDiagDate" prefWidth="180.0" text="Date" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+
+                <!-- 3. APPOINTMENTS VIEW -->
+                <VBox fx:id="viewAppointment" spacing="15.0" visible="false">
+                    <padding><Insets bottom="25.0" left="25.0" right="25.0" top="25.0" /></padding>
+                    <children>
+                        <Label text="All Patient Appointments"><font><Font name="System Bold" size="22.0" /></font></Label>
+                        <TableView fx:id="tblDoctorAppointments" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colDocApptId" prefWidth="120.0" text="ID" />
+                                <TableColumn fx:id="colDocApptPatient" prefWidth="280.0" text="Patient Name" />
+                                <TableColumn fx:id="colDocApptDate" prefWidth="280.0" text="Date &amp; Time" />
+                                <TableColumn fx:id="colDocApptStatus" prefWidth="180.0" text="Status" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+
+                <!-- 4. DOCTOR DETAIL (READ-ONLY) -->
+                <VBox fx:id="viewProfile" spacing="20.0" visible="false">
+                    <padding><Insets bottom="25.0" left="25.0" right="25.0" top="25.0" /></padding>
+                    <children>
+                        <Label text="Doctor Profile Details"><font><Font name="System Bold" size="22.0" /></font></Label>
+                        <VBox spacing="15.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 25; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.05), 10, 0, 0, 2);">
+                            <children>
+                                <HBox spacing="15.0"><Label text="Doctor Name:" textFill="#64748B"><font><Font size="14.0" /></font></Label><Label fx:id="lblProfileName" text="Dr. Stranger" textFill="#1E293B"><font><Font name="System Bold" size="14.0" /></font></Label></HBox>
+                                <HBox spacing="15.0"><Label text="Specialization:" textFill="#64748B"><font><Font size="14.0" /></font></Label><Label fx:id="lblProfileSpecialization" text="Dentist / Cardiologist" textFill="#1E293B"><font><Font name="System Bold" size="14.0" /></font></Label></HBox>
+                                <HBox spacing="15.0"><Label text="Phone Number:" textFill="#64748B"><font><Font size="14.0" /></font></Label><Label fx:id="lblProfilePhone" text="+855 12 345 678" textFill="#1E293B"><font><Font name="System Bold" size="14.0" /></font></Label></HBox>
+                                <HBox spacing="15.0"><Label text="Department Role:" textFill="#64748B"><font><Font size="14.0" /></font></Label><Label fx:id="lblProfileEmail" text="Medical Specialist" textFill="#1E293B"><font><Font name="System Bold" size="14.0" /></font></Label></HBox>
+                                <Label text="" textFill="#EF4444">
+                                    <font><Font size="12.0" /></font>
+                                </Label>
+                            </children>
+                        </VBox>
+                    </children>
+                </VBox>
+
+                <!-- 5. MEDICINE STOCK (Search & Sort - No CRUD) -->
+                <VBox fx:id="viewMedicinesStock" spacing="15.0" visible="false">
+                    <padding><Insets bottom="25.0" left="25.0" right="25.0" top="25.0" /></padding>
+                    <children>
+                        <Label text="Medicines Stock Management"><font><Font name="System Bold" size="22.0" /></font></Label>
+
+                        <!-- Search and Sort Controls -->
+                        <HBox spacing="10.0">
+                            <children>
+                                <TextField fx:id="txtSearchMedicine" promptText="🔍 Search medicine by name or ID..." HBox.hgrow="ALWAYS" />
+                                <ComboBox fx:id="cmbSortMedicine" promptText="Sort By Name/Stock" />
+                            </children>
+                        </HBox>
+
+                        <TableView fx:id="tblMedicines" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colMedId" prefWidth="90.0" text="ID" />
+                                <TableColumn fx:id="colMedName" prefWidth="220.0" text="Name" />
+                                <TableColumn fx:id="colMedStock" prefWidth="100.0" text="Stock" />
+                                <TableColumn fx:id="colMedPrice" prefWidth="100.0" text="Price ($)" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>

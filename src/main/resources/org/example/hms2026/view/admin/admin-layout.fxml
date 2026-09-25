@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="mainBorderPane" prefHeight="700.0" prefWidth="1100.0" stylesheets="@../../css/modern-theme.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms2026.controller_admin.AdminDashboardController">
+    <left>
+        <VBox prefWidth="230.0" spacing="8.0" styleClass="sidebar">
+            <children>
+                <Label styleClass="sidebar-brand" text="🏥 HealthTech Admin" />
+                <Button fx:id="btnDashboard" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleGoToDashboard" styleClass="nav-button, nav-button-active" text="📊 Dashboard" />
+                <Button fx:id="btnDoctors" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleGoToDoctors" styleClass="nav-button" text="👨‍⚕️ Doctors" />
+                <Button fx:id="btnPatients" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleGoToPatients" styleClass="nav-button" text="🤒 Patients" />
+                <Button fx:id="btnAppointments" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleGoToAppointments" styleClass="nav-button" text="📅 Appointments" />
+                <Button fx:id="btnBilling" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleGoToBilling" styleClass="nav-button" text="💳 Billing &amp; Invoices" />
+                <Button fx:id="btnMedicine" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleGoToMedicine" styleClass="nav-button" text="💊 Medicine Stock" />
+
+                <VBox VBox.vgrow="ALWAYS" />
+                <Button fx:id="btnLogout" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogout" styleClass="nav-button" text="🚪 Logout" />
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <StackPane fx:id="contentArea" style="-fx-background-color: #F8FAFC;" BorderPane.alignment="CENTER">
+            <children>
+                <!-- Dashboard View -->
+                <VBox fx:id="dashboardView" spacing="20.0">
+                    <padding>
+                        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+                    </padding>
+                    <children>
+                        <VBox spacing="4.0">
+                            <children>
+                                <Label text="Welcome back Admin Seng-Se" textFill="#0f172a">
+                                    <font><Font name="System Bold" size="22.0" /></font>
+                                </Label>
+                                <Label text="Real-time hospital statistics and system metrics." textFill="#64748b">
+                                    <font><Font size="13.0" /></font>
+                                </Label>
+                            </children>
+                        </VBox>
+                        <HBox spacing="16.0">
+                            <children>
+                                <VBox prefWidth="220.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="stat-title" text="Total Patients" />
+                                        <Label fx:id="lblTotalPatients" styleClass="stat-value" text="0" />
+                                    </children>
+                                </VBox>
+                                <VBox prefWidth="220.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="stat-title" text="Total Doctors" />
+                                        <Label fx:id="lblTotalDoctors" styleClass="stat-value" text="0" />
+                                    </children>
+                                </VBox>
+                                <VBox prefWidth="220.0" styleClass="stat-card" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Label styleClass="stat-title" text="Appointments" />
+                                        <Label fx:id="lblTotalAppointments" styleClass="stat-value" text="0" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+
+                        <HBox spacing="16.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <VBox spacing="12.0" HBox.hgrow="ALWAYS" style="-fx-background-color: white; -fx-padding: 16px; -fx-background-radius: 12px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.03), 6, 0, 0, 1);">
+                                    <children>
+                                        <Label text="Recent Appointments" textFill="#0f172a">
+                                            <font><Font name="System Bold" size="16.0" /></font>
+                                        </Label>
+                                        <TableView fx:id="tblRecentAppointments" VBox.vgrow="ALWAYS">
+                                            <columns>
+                                                <TableColumn fx:id="colRecentId" prefWidth="70.0" text="ID" />
+                                                <TableColumn fx:id="colRecentPatient" prefWidth="130.0" text="Patient Name" />
+                                                <TableColumn fx:id="colRecentDoctor" prefWidth="130.0" text="Doctor Name" />
+                                                <TableColumn fx:id="colRecentDateTime" prefWidth="140.0" text="Date &amp; Time" />
+                                                <TableColumn fx:id="colRecentStatus" prefWidth="90.0" text="Status" />
+                                            </columns>
+                                        </TableView>
+                                    </children>
+                                </VBox>
+
+                                <VBox spacing="12.0" prefWidth="420.0" style="-fx-background-color: white; -fx-padding: 16px; -fx-background-radius: 12px; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.03), 6, 0, 0, 1);">
+                                    <children>
+                                        <Label text="Analytics Overview" textFill="#0f172a">
+                                            <font><Font name="System Bold" size="16.0" /></font>
+                                        </Label>
+                                        <BarChart fx:id="statsBarChart" VBox.vgrow="ALWAYS">
+                                            <xAxis>
+                                                <CategoryAxis side="BOTTOM" />
+                                            </xAxis>
+                                            <yAxis>
+                                                <NumberAxis side="LEFT" />
+                                            </yAxis>
+                                        </BarChart>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <!-- Doctors View -->
+                <VBox fx:id="doctorsView" spacing="12.0" visible="false">
+                    <padding>
+                        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+                    </padding>
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Label text="Doctor Management" textFill="#1e293b">
+                                    <font><Font name="System Bold" size="18.0" /></font>
+                                </Label>
+                                <HBox HBox.hgrow="ALWAYS" />
+                                <Button onAction="#handleAddDoctor" style="-fx-background-color: #10B981; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="+ Add Doctor" />
+                                <Button onAction="#handleEditDoctor" style="-fx-background-color: #F59E0B; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="✏️ Edit" />
+                                <Button onAction="#handleDeleteDoctor" style="-fx-background-color: #EF4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="🗑️ Delete" />
+                            </children>
+                        </HBox>
+                        <TableView fx:id="tblDoctors" prefHeight="450.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colDoctorId" prefWidth="90.0" text="Doctor ID" />
+                                <TableColumn fx:id="colDoctorName" prefWidth="180.0" text="Name" />
+                                <TableColumn fx:id="colDoctorSpecialization" prefWidth="180.0" text="Specialization" />
+                                <TableColumn fx:id="colDoctorPhone" prefWidth="140.0" text="Phone" />
+                                <TableColumn fx:id="colDoctorEmail" prefWidth="200.0" text="Email" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+
+                <!-- Patients View -->
+                <VBox fx:id="patientsView" spacing="12.0" visible="false">
+                    <padding>
+                        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+                    </padding>
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Label text="Patient Management" textFill="#1e293b">
+                                    <font><Font name="System Bold" size="18.0" /></font>
+                                </Label>
+                                <HBox HBox.hgrow="ALWAYS" />
+                                <Button onAction="#handleAddPatient" style="-fx-background-color: #10B981; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="+ Add Patient" />
+                                <Button onAction="#handleEditPatient" style="-fx-background-color: #F59E0B; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="✏️ Edit" />
+                                <Button onAction="#handleDeletePatient" style="-fx-background-color: #EF4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="🗑️ Delete" />
+                            </children>
+                        </HBox>
+                        <TableView fx:id="tblPatients" prefHeight="450.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colId" prefWidth="90.0" text="ID" />
+                                <TableColumn fx:id="colName" prefWidth="180.0" text="Name" />
+                                <TableColumn fx:id="colEmail" prefWidth="200.0" text="Email" />
+                                <TableColumn fx:id="colPhone" prefWidth="140.0" text="Phone" />
+                                <TableColumn fx:id="colDiagnosis" prefWidth="180.0" text="Diagnosis" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+
+                <!-- Appointments View -->
+                <VBox fx:id="appointmentsView" spacing="12.0" visible="false">
+                    <padding>
+                        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+                    </padding>
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Label text="Appointment Management" textFill="#1e293b">
+                                    <font><Font name="System Bold" size="18.0" /></font>
+                                </Label>
+                                <HBox HBox.hgrow="ALWAYS" />
+                                <Button onAction="#handleAddAppointment" style="-fx-background-color: #10B981; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="+ Add Appointment" />
+                                <Button onAction="#handleEditAppointment" style="-fx-background-color: #F59E0B; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="✏️ Edit" />
+                                <Button onAction="#handleDeleteAppointment" style="-fx-background-color: #EF4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="🗑️ Delete" />
+                            </children>
+                        </HBox>
+                        <TableView fx:id="tblAppointments" prefHeight="450.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colAppointmentId" prefWidth="100.0" text="Appointment ID" />
+                                <TableColumn fx:id="colPatientName" prefWidth="200.0" text="Patient Name" />
+                                <TableColumn fx:id="colAppointmentDate" prefWidth="200.0" text="Date &amp; Time" />
+                                <TableColumn fx:id="colStatus" prefWidth="150.0" text="Status" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+
+                <!-- Billing View -->
+                <VBox fx:id="billingView" spacing="12.0" visible="false">
+                    <padding>
+                        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+                    </padding>
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Label text="Patient Billing &amp; Invoices" textFill="#1e293b">
+                                    <font><Font name="System Bold" size="18.0" /></font>
+                                </Label>
+                                <HBox HBox.hgrow="ALWAYS" />
+                                <Button onAction="#handleCreateInvoice" style="-fx-background-color: #10B981; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="+ Create Invoice" />
+                                <Button onAction="#handleDeleteInvoice" style="-fx-background-color: #EF4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="🗑️ Delete" />
+                            </children>
+                        </HBox>
+                        <TableView fx:id="tblAdminBilling" prefHeight="450.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colBillId" prefWidth="90.0" text="Invoice ID" />
+                                <TableColumn fx:id="colBillPatient" prefWidth="160.0" text="Patient Name" />
+                                <TableColumn fx:id="colBillDoctor" prefWidth="160.0" text="Doctor Name" />
+                                <TableColumn fx:id="colBillDesc" prefWidth="300.0" text="Description / Diagnosis" />
+                                <TableColumn fx:id="colBillAmount" prefWidth="120.0" text="Amount ($)" />
+                                <TableColumn fx:id="colBillStatus" prefWidth="120.0" text="Status" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+
+                <!-- Medicine Stock View -->
+                <VBox fx:id="medicineStockView" spacing="12.0" visible="false">
+                    <padding>
+                        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+                    </padding>
+                    <children>
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
+                            <children>
+                                <Label text="Medicine Stock Inventory" textFill="#1e293b">
+                                    <font><Font name="System Bold" size="18.0" /></font>
+                                </Label>
+                                <HBox HBox.hgrow="ALWAYS" />
+                                <Button onAction="#handleAddMedicine" style="-fx-background-color: #10B981; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="+ Add Medicine" />
+                                <Button onAction="#handleEditMedicine" style="-fx-background-color: #F59E0B; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="✏️ Edit Stock" />
+                                <Button onAction="#handleDeleteMedicine" style="-fx-background-color: #EF4444; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8px; -fx-padding: 8px 16px; -fx-cursor: hand;" text="🗑️ Delete" />
+                            </children>
+                        </HBox>
+                        <TableView fx:id="tblMedicineStock" prefHeight="450.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="colMedId" prefWidth="100.0" text="Medicine ID" />
+                                <TableColumn fx:id="colMedName" prefWidth="220.0" text="Medicine Name" />
+                                <TableColumn fx:id="colMedCategory" prefWidth="180.0" text="Category" />
+                                <TableColumn fx:id="colMedQuantity" prefWidth="140.0" text="Quantity in Stock" />
+                                <TableColumn fx:id="colMedPrice" prefWidth="140.0" text="Unit Price ($)" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </VBox>
+            </children>
+        </StackPane>
+    </center>
+</BorderPane>

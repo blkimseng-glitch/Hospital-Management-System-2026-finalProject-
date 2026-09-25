@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="15.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.hms2026.controller_admin.AppointmentFormController">
+    <padding>
+        <Insets bottom="24.0" left="24.0" right="24.0" top="24.0" />
+    </padding>
+    <children>
+        <Label text="Appointment Information" textFill="#0f172a">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Label>
+
+        <VBox spacing="10.0">
+            <children>
+                <Label text="ID" textFill="#64748b" />
+                <TextField fx:id="txtId" promptText="Enter Appointment ID (e.g. A001)" />
+
+                <Label text="Patient Name" textFill="#64748b" />
+                <TextField fx:id="txtPatientName" promptText="Enter patient name" />
+
+                <Label text="Doctor Name" textFill="#64748b" />
+                <TextField fx:id="txtDoctorName" promptText="Enter doctor name" />
+
+                <Label text="Date" textFill="#64748b" />
+                <TextField fx:id="txtDate" promptText="Enter date (e.g. 2026-06-10)" />
+
+                <Label text="Status" textFill="#64748b" />
+                <TextField fx:id="txtStatus" promptText="Enter status (e.g. Confirmed)" />
+            </children>
+        </VBox>
+
+        <HBox alignment="CENTER_RIGHT" spacing="10.0">
+            <children>
+                <Button onAction="#handleCancel" style="-fx-background-color: #E2E8F0; -fx-text-fill: #1E293B; -fx-cursor: hand; -fx-padding: 8px 16px; -fx-background-radius: 6px;" text="Cancel" />
+                <Button onAction="#handleSave" style="-fx-background-color: #10B981; -fx-text-fill: white; -fx-font-weight: bold; -fx-cursor: hand; -fx-padding: 8px 16px; -fx-background-radius: 6px;" text="Save" />
+            </children>
+        </HBox>
+    </children>
+</VBox>
