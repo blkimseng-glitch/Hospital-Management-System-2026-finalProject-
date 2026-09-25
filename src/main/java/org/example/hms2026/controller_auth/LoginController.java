@@ -13,7 +13,7 @@ import org.example.hms2026.model.Patient;
 import org.example.hms2026.model.User;
 import org.example.hms2026.model.enums.UserRole;
 import org.example.hms2026.util.SceneRouter;
-import org.example.hms2026.util.UserSession; // នាំចូល UserSession
+import org.example.hms2026.util.UserSession;
 
 public class LoginController {
 
@@ -29,7 +29,7 @@ public class LoginController {
         cmbRole.setValue(UserRole.ADMIN); // Default Role
 
         if (lblError != null) {
-            lblError.setVisible(false); // លាក់ Error Label នៅពេលដំបូង
+            lblError.setVisible(false);
         }
     }
 
@@ -45,7 +45,7 @@ public class LoginController {
             return;
         }
 
-        // ផ្ទៀងផ្ទាត់ Username, Password និង Role ជាមួយ DataStore
+
         boolean isValidUser = false;
         for (User u : DataStore.getUsers()) {
             if (u.getUsername().equalsIgnoreCase(username)
@@ -59,10 +59,10 @@ public class LoginController {
         if (isValidUser) {
             lblError.setVisible(false);
 
-            // បង្កើត UserSession សម្រាប់ User ដែលបាន Login
+
             UserSession.getInstance(username, selectedRole.name());
 
-            // ស្វែងរក និងកំណត់ទិន្នន័យ Patient ຖ້າ Role ជា PATIENT
+
             if (selectedRole == UserRole.PATIENT) {
                 for (Patient p : DataStore.getPatients()) {
                     String formattedName = p.getName().toLowerCase().replace(" ", ".");
@@ -73,10 +73,10 @@ public class LoginController {
                 }
             }
 
-            // ស្វែងរក និងកំណត់ទិន្នន័យ Doctor ຖ້າ Role ជា DOCTOR
+
             if (selectedRole == UserRole.DOCTOR) {
                 for (Doctor d : DataStore.getDoctors()) {
-                    // ប្រៀបធៀប Username ជាមួយ Email ឬ Name របស់ Doctor (ឧ. dr.vicheka)
+
                     String docUsername = "dr." + d.getName().toLowerCase().replace(" ", "").replace("dr.", "");
                     if (docUsername.equals(username.toLowerCase()) || d.getEmail().toLowerCase().contains(username.toLowerCase())) {
                         UserSession.getInstance().setCurrentDoctor(d);
