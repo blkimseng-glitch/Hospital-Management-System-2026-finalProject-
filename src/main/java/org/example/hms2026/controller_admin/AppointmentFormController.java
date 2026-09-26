@@ -11,7 +11,7 @@ public class AppointmentFormController {
     @FXML private TextField txtId;
     @FXML private TextField txtPatientName;
     @FXML private TextField txtDoctorName;
-    @FXML private TextField txtDateTime;
+    @FXML private TextField txtDate; // ដូរពី txtDateTime មក txtDate វិញ
     @FXML private TextField txtStatus;
 
     private Appointment currentAppointment;
@@ -25,7 +25,7 @@ public class AppointmentFormController {
             txtId.setText(appointment.getId());
             txtPatientName.setText(appointment.getPatientName());
             txtDoctorName.setText(appointment.getDoctorName());
-            txtDateTime.setText(appointment.getDateTime());
+            txtDate.setText(appointment.getDateTime()); // ដូរទីនេះផងដែរ
             txtStatus.setText(appointment.getStatus());
 
             txtId.setEditable(false);
@@ -37,7 +37,7 @@ public class AppointmentFormController {
         String id = txtId.getText().trim();
         String patientName = txtPatientName.getText().trim();
         String doctorName = txtDoctorName.getText().trim();
-        String dateTime = txtDateTime.getText().trim();
+        String dateTime = txtDate.getText().trim(); // ដូរទីនេះផងដែរ
         String status = txtStatus.getText().trim();
 
         if (id.isEmpty() || patientName.isEmpty() || doctorName.isEmpty()) {

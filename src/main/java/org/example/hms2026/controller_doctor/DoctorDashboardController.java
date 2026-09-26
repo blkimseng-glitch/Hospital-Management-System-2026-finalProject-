@@ -1,5 +1,7 @@
 package org.example.hms2026.controller_doctor;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
@@ -12,7 +14,6 @@ import org.example.hms2026.model.Appointment;
 import org.example.hms2026.model.Diagnosis;
 import org.example.hms2026.model.Doctor;
 import org.example.hms2026.model.Medicine;
-import org.example.hms2026.model.Patient;
 import org.example.hms2026.util.SceneRouter;
 import org.example.hms2026.util.UserSession;
 
@@ -20,34 +21,29 @@ import java.time.LocalDate;
 
 public class DoctorDashboardController {
 
-    // Sidebar & Profile Labels
     @FXML private Label lblSidebarDocName;
     @FXML private Label lblSidebarDocSpec;
 
-    // 👉 បន្ថែម Label សម្រាប់ Profile Details View ខាងស្ដាំ
     @FXML private Label lblProfileName;
     @FXML private Label lblProfileSpecialization;
     @FXML private Label lblProfilePhone;
-    @FXML private Label lblProfileEmail; // ឬ Department Role អាស្រ័យលើ FXML របស់អ្នក
+    @FXML private Label lblProfileEmail;
 
     @FXML private Label lblPatientsCount;
     @FXML private Label lblAppointmentsCount;
 
-    // Navigation Buttons
     @FXML private Button btnNavDashboard;
     @FXML private Button btnNavDiagnosis;
     @FXML private Button btnNavAppointment;
     @FXML private Button btnNavProfile;
     @FXML private Button btnNavStock;
 
-    // Views (Stack Views)
     @FXML private VBox viewDashboard;
     @FXML private VBox viewDiagnosis;
     @FXML private VBox viewAppointment;
     @FXML private VBox viewProfile;
     @FXML private VBox viewMedicinesStock;
 
-    // Dashboard Search & Sort
     @FXML private TextField txtSearchKeyword;
     @FXML private ComboBox<String> cmbSortOption;
     @FXML private TableView<Appointment> tblSearchAppointments;
@@ -56,7 +52,6 @@ public class DoctorDashboardController {
     @FXML private TableColumn<Appointment, String> colSearchDate;
     @FXML private TableColumn<Appointment, String> colSearchStatus;
 
-    // Diagnosis View
     @FXML private TextField txtDiagPatientName;
     @FXML private TextField txtDiagNotes;
     @FXML private TableView<Diagnosis> tblDiagnosisHistory;
@@ -64,14 +59,12 @@ public class DoctorDashboardController {
     @FXML private TableColumn<Diagnosis, String> colDiagNotes;
     @FXML private TableColumn<Diagnosis, String> colDiagDate;
 
-    // Appointments View
     @FXML private TableView<Appointment> tblDoctorAppointments;
     @FXML private TableColumn<Appointment, String> colDocApptId;
     @FXML private TableColumn<Appointment, String> colDocApptPatient;
     @FXML private TableColumn<Appointment, String> colDocApptDate;
     @FXML private TableColumn<Appointment, String> colDocApptStatus;
 
-    // Medicine Stock View (Search & Sort - No CRUD)
     @FXML private TextField txtSearchMedicine;
     @FXML private ComboBox<String> cmbSortMedicine;
     @FXML private TableView<Medicine> tblMedicines;
@@ -80,12 +73,12 @@ public class DoctorDashboardController {
     @FXML private TableColumn<Medicine, Integer> colMedStock;
     @FXML private TableColumn<Medicine, Double> colMedPrice;
 
+    private ObservableList<Diagnosis> diagnosisList = FXCollections.observableArrayList();
+
     @FXML
     public void initialize() {
-        // 🔄 ទាញយក និងបង្ហាញព័ត៌មាន Profile របស់វេជ្ជបណ្ឌិតពី UserSession ទាំង Sidebar និង Profile Details
         Doctor currentDoctor = UserSession.getInstance().getCurrentDoctor();
         if (currentDoctor != null) {
-            // 1. បង្ហាញលើ Sidebar ខាងឆ្វេង
             if (lblSidebarDocName != null) {
                 lblSidebarDocName.setText(currentDoctor.getName());
             }
@@ -93,7 +86,6 @@ public class DoctorDashboardController {
                 lblSidebarDocSpec.setText(currentDoctor.getSpecialization());
             }
 
-            // 2. បង្ហាញលើ Profile Details ខាងស្ដាំ
             if (lblProfileName != null) {
                 lblProfileName.setText(currentDoctor.getName());
             }
@@ -110,7 +102,6 @@ public class DoctorDashboardController {
 
         updateCounters();
 
-        // 1. Dashboard Search Appointments Mapping, Filtering & Sorting
         if (colSearchId != null) colSearchId.setCellValueFactory(new PropertyValueFactory<>("id"));
         if (colSearchPatient != null) colSearchPatient.setCellValueFactory(new PropertyValueFactory<>("patientName"));
         if (colSearchDate != null) colSearchDate.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
@@ -132,7 +123,6 @@ public class DoctorDashboardController {
             SortedList<Appointment> sortedAppts = new SortedList<>(filteredAppts);
             tblSearchAppointments.setItems(sortedAppts);
 
-            // បន្ថែម Items និងមុខងារ Sort ឱ្យ cmbSortOption ក្នុង Dashboard
             if (cmbSortOption != null) {
                 cmbSortOption.getItems().addAll("Status", "Date (Newest)", "Date (Oldest)");
                 cmbSortOption.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -148,7 +138,6 @@ public class DoctorDashboardController {
             }
         }
 
-        // 2. Doctor Appointments Mapping
         if (colDocApptId != null) colDocApptId.setCellValueFactory(new PropertyValueFactory<>("id"));
         if (colDocApptPatient != null) colDocApptPatient.setCellValueFactory(new PropertyValueFactory<>("patientName"));
         if (colDocApptDate != null) colDocApptDate.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
@@ -158,7 +147,6 @@ public class DoctorDashboardController {
             tblDoctorAppointments.setItems(DataStore.getAppointments());
         }
 
-        // 3. Medicine Stock Mapping with Search & Sort (Read-Only)
         if (colMedId != null) colMedId.setCellValueFactory(new PropertyValueFactory<>("id"));
         if (colMedName != null) colMedName.setCellValueFactory(new PropertyValueFactory<>("name"));
         if (colMedStock != null) colMedStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
@@ -199,6 +187,14 @@ public class DoctorDashboardController {
                 });
             }
         }
+
+        if (colDiagPatient != null) colDiagPatient.setCellValueFactory(new PropertyValueFactory<>("patientName"));
+        if (colDiagNotes != null) colDiagNotes.setCellValueFactory(new PropertyValueFactory<>("notes"));
+        if (colDiagDate != null) colDiagDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        if (tblDiagnosisHistory != null) {
+            tblDiagnosisHistory.setItems(diagnosisList);
+        }
     }
 
     private void updateCounters() {
@@ -210,19 +206,16 @@ public class DoctorDashboardController {
         }
     }
 
-    // Navigation Switcher
     @FXML
     private void handleSwitchView(ActionEvent event) {
         Button sourceBtn = (Button) event.getSource();
 
-        // Hide all views
         if (viewDashboard != null) { viewDashboard.setVisible(false); viewDashboard.setManaged(false); }
         if (viewDiagnosis != null) { viewDiagnosis.setVisible(false); viewDiagnosis.setManaged(false); }
         if (viewAppointment != null) { viewAppointment.setVisible(false); viewAppointment.setManaged(false); }
         if (viewProfile != null) { viewProfile.setVisible(false); viewProfile.setManaged(false); }
         if (viewMedicinesStock != null) { viewMedicinesStock.setVisible(false); viewMedicinesStock.setManaged(false); }
 
-        // Reset button styles
         Button[] navButtons = {btnNavDashboard, btnNavDiagnosis, btnNavAppointment, btnNavProfile, btnNavStock};
         for (Button btn : navButtons) {
             if (btn != null) {
@@ -230,7 +223,6 @@ public class DoctorDashboardController {
             }
         }
 
-        // Activate selected view and button style
         if (sourceBtn == btnNavDashboard) {
             if (viewDashboard != null) { viewDashboard.setVisible(true); viewDashboard.setManaged(true); }
         } else if (sourceBtn == btnNavDiagnosis) {
@@ -258,9 +250,8 @@ public class DoctorDashboardController {
             return;
         }
         Diagnosis diag = new Diagnosis(patientName, notes, LocalDate.now().toString());
-        if (tblDiagnosisHistory != null) {
-            tblDiagnosisHistory.getItems().add(diag);
-        }
+        diagnosisList.add(diag);
+
         if (txtDiagPatientName != null) txtDiagPatientName.clear();
         if (txtDiagNotes != null) txtDiagNotes.clear();
     }

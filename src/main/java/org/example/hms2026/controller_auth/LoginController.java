@@ -24,7 +24,7 @@ public class LoginController {
 
     @FXML
     public void initialize() {
-        // ដាក់ List Enum Role ចូលក្នុង ComboBox
+       
         cmbRole.setItems(FXCollections.observableArrayList(UserRole.values()));
         cmbRole.setValue(UserRole.ADMIN); // Default Role
 

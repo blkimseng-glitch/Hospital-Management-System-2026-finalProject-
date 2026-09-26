@@ -72,7 +72,7 @@ public class BillingFormController {
         String amountStr = txtAmount.getText();
 
         if (selectedPatient == null || selectedDoctor == null || amountStr.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "សូមបំពេញព័ត៌មានអ្នកជំងឺ វេជ្ជបណ្ឌិត និងទឹកប្រាក់ឱ្យបានครบถ้วน!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "សូមបំពេញព័ត៌មានអ្នកជំងឺ វេជ្ជបណ្ឌិត និងទឹកប្រាក់ឱ្យបានត្រឹមត្រូវ!", ButtonType.OK);
             alert.showAndWait();
             return;
         }
